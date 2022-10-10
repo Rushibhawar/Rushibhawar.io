@@ -1,0 +1,79 @@
+/*Im using pgAdmin 4 for creating tables*/
+
+/*First of all create a database*/
+
+-- Database: techblog
+
+CREATE DATABASE techblog;
+
+/* Then create tables*/
+
+1: user_deatils
+-- Table: user_details
+CREATE TABLE IF NOT EXISTS public.user_details
+(
+    user_id integer NOT NULL DEFAULT nextval('user_details_user_id_seq'::regclass),
+    user_name character varying(50) COLLATE pg_catalog."default",
+    email character varying(50) COLLATE pg_catalog."default",
+    password character varying(50) COLLATE pg_catalog."default",
+    gender character varying(50) COLLATE pg_catalog."default",
+    about character varying(500) COLLATE pg_catalog."default",
+    profile character varying(200) COLLATE pg_catalog."default" DEFAULT 'default.png'::character varying,
+    CONSTRAINT user_details_pkey PRIMARY KEY (user_id),
+    CONSTRAINT user_details_email_key UNIQUE (email)
+)
+
+2:post
+-- Table: post
+CREATE TABLE IF NOT EXISTS public.post
+(
+    p_id integer NOT NULL DEFAULT nextval('post_p_id_seq'::regclass),
+    p_title character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    p_content text COLLATE pg_catalog."default",
+    p_code text COLLATE pg_catalog."default",
+    p_pic character varying COLLATE pg_catalog."default",
+    p_date timestamp with time zone DEFAULT now(),
+    c_id integer,
+    user_id integer,
+    CONSTRAINT post_pkey PRIMARY KEY (p_id),
+    CONSTRAINT c_id FOREIGN KEY (c_id)
+        REFERENCES public.categories (c_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    CONSTRAINT user_id FOREIGN KEY (user_id)
+        REFERENCES public.user_details (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+)
+
+3:categories
+-- Table: categories
+CREATE TABLE IF NOT EXISTS public.categories
+(
+    c_id integer NOT NULL DEFAULT nextval('categories_c_id_seq'::regclass),
+    c_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    c_description character varying(200) COLLATE pg_catalog."default",
+    CONSTRAINT categories_pkey PRIMARY KEY (c_id)
+)
+
+4:like_table
+-- Table: like_table
+CREATE TABLE IF NOT EXISTS public.like_table
+(
+    like_id integer NOT NULL DEFAULT nextval('like_like_id_seq'::regclass),
+    p_id integer,
+    user_id integer,
+    CONSTRAINT like_pkey PRIMARY KEY (like_id),
+    CONSTRAINT p_id FOREIGN KEY (p_id)
+        REFERENCES public.post (p_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    CONSTRAINT user_id FOREIGN KEY (user_id)
+        REFERENCES public.user_details (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+)
