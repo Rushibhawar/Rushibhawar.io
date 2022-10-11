@@ -16,10 +16,11 @@
          <span class="fa fa-folder-open-o"></span> Categories
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Programing Language</a>
-          <a class="dropdown-item" href="#">Project implementation</a>
+         <a class="dropdown-item" href="login_page.jsp">Java Programing</a>
+          <a class="dropdown-item" href="login_page.jsp">Python Programing</a>
+          <a class="dropdown-item" href="login_page.jsp">Javascript</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Data Structures</a>
+          <a class="dropdown-item" href="login_page.jsp">Database</a>
         </div>
       </li>
       <li class="nav-item">
